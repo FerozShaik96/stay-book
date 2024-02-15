@@ -109,7 +109,7 @@ function Description() {
             placeholder="Duration"
             value={DataVal.duration}
             onChange={(e) => {
-              handlerChange("", e);
+              handlerChange("duration", e);
             }}
           />
         </div>
