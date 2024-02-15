@@ -1,118 +1,165 @@
-import Image from "next/image";
-import { Inter } from "next/font/google";
+import Address from "@/Components/Address";
+import { getStaticPaths } from "next";
 
-const inter = Inter({ subsets: ["latin"] });
+import Attribute from "@/Components/Attributes";
+import AriDetails from "@/Components/Ari-Details";
+import Description from "@/Components/Description";
+import React, { Fragment, useState } from "react";
+import { PageDataProvider } from "@/Store/PageContext";
 
-export default function Home() {
+function Data() {
+  const [count, setCount] = useState(1);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
+  const toggleSidebar = () => {
+    setIsSidebarOpen(!isSidebarOpen);
+  };
+
   return (
-    <main
-      className={`flex min-h-screen flex-col items-center justify-between p-24 ${inter.className}`}
-    >
-      <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">pages/index.js</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+    <PageDataProvider>
+      {/* Sidebar Toggle Button */}
+      <button
+        className="block md:hidden fixed top-0 left-0 z-50 w-full h-full bg-black opacity-50"
+        onClick={toggleSidebar}
+        style={{ display: isSidebarOpen ? "block" : "none" }}
+      ></button>
+
+      {/* Sidebar Content */}
+      <div
+        className={`fixed top-0 left-0 z-50 w-4/5 max-w-sm h-full bg-white shadow-lg transform transition-transform duration-300 ${
+          isSidebarOpen ? "translate-x-0" : "-translate-x-full"
+        } md:hidden`}
+      >
+        <div className="h-full flex flex-col justify-between">
+          <div className="mt-20">
+            {/* Navigation Links */}
+            <div
+              className={`py-2 text-center ${
+                count === 1 ? "border-b-2 rounded-t-lg border-blue-500" : ""
+              }`}
+              onClick={() => {
+                setCount(1);
+                toggleSidebar();
+              }}
+            >
+              Attributes
+            </div>
+            <div
+              className={`py-2 text-center ${
+                count === 2 ? "border-b-2 border-blue-500" : ""
+              }`}
+              onClick={() => {
+                setCount(2);
+                toggleSidebar();
+              }}
+            >
+              ARI - Details
+            </div>
+            <div
+              className={`py-2 text-center ${
+                count === 3 ? "border-b-2 border-blue-500" : ""
+              }`}
+              onClick={() => {
+                setCount(3);
+                toggleSidebar();
+              }}
+            >
+              Address
+            </div>
+            <div
+              className={`py-2 text-center ${
+                count === 4 ? "border-b-2 rounded-b-lg border-blue-500" : ""
+              }`}
+              onClick={() => {
+                setCount(4);
+                toggleSidebar();
+              }}
+            >
+              Description
+            </div>
+          </div>
+          {/* Sidebar Close Button */}
+          <button
+            className="bg-indigo-500 text-white py-2 rounded-b-lg"
+            onClick={toggleSidebar}
           >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
+            Close
+          </button>
         </div>
       </div>
 
-      <div className="relative flex place-items-center before:absolute before:h-[300px] before:w-full sm:before:w-[480px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-full sm:after:w-[240px] after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700/10 after:dark:from-sky-900 after:dark:via-[#0141ff]/40 before:lg:h-[360px]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
+      {/* Main Content */}
+      <div className="">
+        <div className="w-full md:w-9/12 mx-auto mt-20">
+          <div className="flex text-lg font-medium items-center justify-between mb-4">
+            {/* Mobile Navbar Toggle Button */}
+            <button className="block md:hidden ml-2" onClick={toggleSidebar}>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M4 6h16M4 12h16m-7 6h7"
+                />
+              </svg>
+            </button>
+            {/* Desktop Navbar */}
+            <div
+              className={`py-2 w-1/4 text-center ${
+                count === 1
+                  ? "border-b-2 rounded-bl-lg border-blue-500"
+                  : "border-e-2 bg-gray-100"
+              } hidden md:block`}
+              onClick={() => setCount(1)}
+            >
+              Attributes
+            </div>
+            <div
+              className={`py-2 w-1/4 text-center ${
+                count === 2
+                  ? "border-b-2 border-blue-500"
+                  : "border-e-2 bg-gray-100"
+              } hidden md:block`}
+              onClick={() => setCount(2)}
+            >
+              ARI - Details
+            </div>
+            <div
+              className={`py-2 w-1/4 text-center ${
+                count === 3
+                  ? "border-b-2 border-blue-500"
+                  : " border-e-2 bg-gray-100"
+              } hidden md:block`}
+              onClick={() => setCount(3)}
+            >
+              Address Details
+            </div>
+            <div
+              className={`w-1/4 py-2 text-center ${
+                count === 4
+                  ? "border-b-2 rounded-br-lg border-blue-500"
+                  : "bg-gray-100"
+              } hidden md:block`}
+              onClick={() => setCount(4)}
+            >
+              Description
+            </div>
+          </div>
+          {/* Main Content based on count */}
+          {count === 1 && <Attribute />}
+          {count === 2 && <AriDetails />}
+          {count === 3 && <Address />}
+          {count === 4 && <Description />}
+        </div>
       </div>
-
-      <div className="mb-32 grid text-center lg:max-w-5xl lg:w-full lg:mb-0 lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Docs{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Learn{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Templates{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Discover and deploy boilerplate example Next.js&nbsp;projects.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Deploy{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50 text-balance`}>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
+    </PageDataProvider>
   );
 }
+
+export default Data;
