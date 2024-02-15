@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import { useState, useContext } from "react";
 import { PageContext } from "@/Store/PageContext";
 function Description() {
   const {
@@ -82,7 +82,7 @@ function Description() {
               placeholder="Write the Name"
               value={DataVal.hotelName}
               onChange={(e) => {
-                handlerChange("", e);
+                handlerChange("hotelName", e);
               }}
             />
             {/* <button className="inline bg-indigo-500 text-white rounded-md px-4 py-2 mt-1 ml-2">
@@ -99,7 +99,7 @@ function Description() {
             placeholder="Distance"
             value={DataVal.distance}
             onChange={(e) => {
-              handlerChange("", e);
+              handlerChange("distance", e);
             }}
           />
           <input

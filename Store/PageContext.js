@@ -130,7 +130,6 @@ const PageDataProvider = ({ children }) => {
     });
     console.log(result);
   };
-
   const getAllData = async () => {
     const querySnapshot = await getDocs(collection(db, "userData"));
     querySnapshot.forEach((doc) => {
